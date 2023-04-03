@@ -17,7 +17,7 @@ func Initialize() (Application, error) {
 		http.NewHttpServer,
 		conn.NewDatabase,
 		wireset.HandlerSet,
-		wireset.UsecaseSet,
+		wireset.UsecaseV1Set,
 		wireset.RepositorySet,
 	)
 	return Application{}, nil

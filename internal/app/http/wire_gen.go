@@ -11,7 +11,7 @@ import (
 	"go-bank-express/internal/delivery/handler"
 	"go-bank-express/internal/delivery/http"
 	"go-bank-express/internal/repository"
-	"go-bank-express/internal/usecase"
+	"go-bank-express/internal/usecase/v1"
 )
 
 // Injectors from wire.go:
@@ -23,7 +23,7 @@ func Initialize() (Application, error) {
 		return Application{}, err
 	}
 	userRepository := repository.NewUserRepository(db)
-	userUsecase := usecase.NewUserUsecase(userRepository)
+	userUsecase := v1.NewUserUsecase(userRepository)
 	userHandler := handler.NewUser(userUsecase)
 	httpServer := http.NewHttpServer(ping, userHandler)
 	application := newApplication(httpServer)
