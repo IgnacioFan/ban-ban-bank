@@ -17,7 +17,7 @@ import (
 // Injectors from wire.go:
 
 func Initialize() (Application, error) {
-	ping := handler.NewPing()
+	pingHandler := handler.NewPing()
 	db, err := conn.NewDatabase()
 	if err != nil {
 		return Application{}, err
@@ -25,7 +25,7 @@ func Initialize() (Application, error) {
 	userRepository := repository.NewUserRepository(db)
 	userUsecase := v1.NewUserUsecase(userRepository)
 	userHandler := handler.NewUser(userUsecase)
-	httpServer := http.NewHttpServer(ping, userHandler)
+	httpServer := http.NewHttpServer(pingHandler, userHandler)
 	application := newApplication(httpServer)
 	return application, nil
 }

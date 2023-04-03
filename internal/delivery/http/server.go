@@ -9,11 +9,11 @@ import (
 
 type HttpServer struct {
 	*gin.Engine
-	PingHandler *handler.Ping
+	PingHandler *handler.PingHandler
 	UserHandler *handler.UserHandler
 }
 
-func NewHttpServer(ping *handler.Ping, user *handler.UserHandler) *HttpServer {
+func NewHttpServer(ping *handler.PingHandler, user *handler.UserHandler) *HttpServer {
 	server := &HttpServer{
 		Engine:      gin.Default(),
 		PingHandler: ping,
