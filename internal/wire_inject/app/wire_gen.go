@@ -4,7 +4,7 @@
 //go:build !wireinject
 // +build !wireinject
 
-package http
+package app
 
 import (
 	"go-bank-express/internal/conn"

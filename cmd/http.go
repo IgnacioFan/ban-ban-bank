@@ -4,7 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"go-bank-express/internal/app/http"
+	"go-bank-express/internal/wire_inject/app"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -28,8 +28,8 @@ func init() {
 }
 
 func runHttpCmd(cmd *cobra.Command, args []string) {
-	server, _ := http.Initialize()
-	if err := server.Start(port); err != nil {
+	app, _ := app.Initialize()
+	if err := app.Start(port); err != nil {
 		logrus.Panicf("server.Run failed, err: %v", err)
 	}
 }
