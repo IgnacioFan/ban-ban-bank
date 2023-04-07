@@ -29,6 +29,8 @@ func NewHttpServer(ping *handler.PingHandler, user *handler.UserHandler, wallet 
 }
 
 func (s *HttpServer) SetRouter() {
+	s.Engine.Use(middlewares.RequestID)
+
 	s.Engine.NoRoute(func(ctx *gin.Context) {
 		ctx.String(http.StatusNotFound, "Not Found")
 	})
