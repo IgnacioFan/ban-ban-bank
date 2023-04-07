@@ -39,5 +39,7 @@ func (s *HttpServer) SetRouter() {
 		v1.POST("/login", s.UserHandler.LoginUser)
 		v1.Use(middlewares.Auth)
 		v1.POST("/wallet", s.WalletHandler.CreateWallet)
+		v1.GET("/wallets", s.WalletHandler.ListWallets)
+		v1.POST("/wallet/balance", s.WalletHandler.UpdateWalletBalance)
 	}
 }
