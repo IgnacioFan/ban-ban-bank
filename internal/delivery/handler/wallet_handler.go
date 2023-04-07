@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,13 +15,31 @@ func NewWallet() *WalletHandler {
 }
 
 func (h *WalletHandler) CreateWallet(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, "created a new wallet")
+	req := CreateWalletReq{}
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+	// pass req and req_id to usecase
+	ctx.JSON(http.StatusOK, fmt.Sprintf("created wallet: %v", req))
 }
 
 func (h *WalletHandler) ListWallets(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, "list existing wallets")
+	req := ListWalletReq{}
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+	// pass req and req_id to usecase
+	ctx.JSON(http.StatusOK, fmt.Sprintf("list wallets: %v", req))
 }
 
 func (h *WalletHandler) UpdateWalletBalance(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, "update wallet balance")
+	req := UpdateWalletBalanceReq{}
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+	// pass req and req_id to usecase
+	ctx.JSON(http.StatusOK, fmt.Sprintf("update wallet balance: %v", req))
 }
