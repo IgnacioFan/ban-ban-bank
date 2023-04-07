@@ -10,17 +10,19 @@ import (
 
 type HttpServer struct {
 	*gin.Engine
-	PingHandler   *handler.PingHandler
-	UserHandler   *handler.UserHandler
-	WalletHandler *handler.WalletHandler
+	PingHandler        *handler.PingHandler
+	UserHandler        *handler.UserHandler
+	WalletHandler      *handler.WalletHandler
+	TransactionHandler *handler.TransactionHandler
 }
 
-func NewHttpServer(ping *handler.PingHandler, user *handler.UserHandler, wallet *handler.WalletHandler) *HttpServer {
+func NewHttpServer(ping *handler.PingHandler, user *handler.UserHandler, wallet *handler.WalletHandler, trx *handler.TransactionHandler) *HttpServer {
 	server := &HttpServer{
-		Engine:        gin.Default(),
-		PingHandler:   ping,
-		UserHandler:   user,
-		WalletHandler: wallet,
+		Engine:             gin.Default(),
+		PingHandler:        ping,
+		UserHandler:        user,
+		WalletHandler:      wallet,
+		TransactionHandler: trx,
 	}
 	server.SetRouter()
 	return server
@@ -41,5 +43,7 @@ func (s *HttpServer) SetRouter() {
 		v1.POST("/wallet", s.WalletHandler.CreateWallet)
 		v1.GET("/wallets", s.WalletHandler.ListWallets)
 		v1.POST("/wallet/balance", s.WalletHandler.UpdateWalletBalance)
+		v1.POST("/transfer", s.TransactionHandler.Transfer)
+		v1.GET("/transactions", s.TransactionHandler.ListTransactions)
 	}
 }
