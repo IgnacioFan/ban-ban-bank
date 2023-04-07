@@ -25,7 +25,8 @@ func Initialize() (Application, error) {
 	userRepository := repository.NewUserRepository(db)
 	userUsecase := v1.NewUserUsecase(userRepository)
 	userHandler := handler.NewUser(userUsecase)
-	httpServer := http.NewHttpServer(pingHandler, userHandler)
+	walletHandler := handler.NewWallet()
+	httpServer := http.NewHttpServer(pingHandler, userHandler, walletHandler)
 	application := newApplication(httpServer)
 	return application, nil
 }

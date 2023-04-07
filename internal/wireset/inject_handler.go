@@ -9,4 +9,5 @@ import (
 var HandlerSet = wire.NewSet(
 	handler.NewPing,
 	handler.NewUser,
+	handler.NewWallet,
 )

@@ -17,9 +17,13 @@ func NewUser(user usecase.UserUsecase) *UserHandler {
 	}
 }
 
-func (h *UserHandler) CreateUser(ctx *gin.Context) {
-	if err := h.UserUsecase.Create(); err != nil {
-		ctx.JSON(http.StatusNotFound, err.Error())
-	}
-	ctx.JSON(http.StatusOK, "created user")
+func (h *UserHandler) RegisterUser(ctx *gin.Context) {
+	// if err := h.UserUsecase.Create(); err != nil {
+	// 	ctx.JSON(http.StatusNotFound, err.Error())
+	// }
+	ctx.JSON(http.StatusOK, "register a new user")
+}
+
+func (h *UserHandler) LoginUser(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, "login user")
 }

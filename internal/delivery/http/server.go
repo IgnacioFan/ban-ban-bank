@@ -2,6 +2,7 @@ package http
 
 import (
 	"go-bank-express/internal/delivery/handler"
+	"go-bank-express/internal/delivery/http/middlewares"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,15 +10,17 @@ import (
 
 type HttpServer struct {
 	*gin.Engine
-	PingHandler *handler.PingHandler
-	UserHandler *handler.UserHandler
+	PingHandler   *handler.PingHandler
+	UserHandler   *handler.UserHandler
+	WalletHandler *handler.WalletHandler
 }
 
-func NewHttpServer(ping *handler.PingHandler, user *handler.UserHandler) *HttpServer {
+func NewHttpServer(ping *handler.PingHandler, user *handler.UserHandler, wallet *handler.WalletHandler) *HttpServer {
 	server := &HttpServer{
-		Engine:      gin.Default(),
-		PingHandler: ping,
-		UserHandler: user,
+		Engine:        gin.Default(),
+		PingHandler:   ping,
+		UserHandler:   user,
+		WalletHandler: wallet,
 	}
 	server.SetRouter()
 	return server
@@ -32,6 +35,9 @@ func (s *HttpServer) SetRouter() {
 
 	{
 		v1.GET("/ping", s.PingHandler.Pong)
-		v1.GET("/user", s.UserHandler.CreateUser)
+		v1.POST("/register", s.UserHandler.RegisterUser)
+		v1.POST("/login", s.UserHandler.LoginUser)
+		v1.Use(middlewares.Auth)
+		v1.POST("/wallet", s.WalletHandler.CreateWallet)
 	}
 }
