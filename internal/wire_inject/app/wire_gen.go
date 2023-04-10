@@ -7,24 +7,15 @@
 package app
 
 import (
-	"go-bank-express/internal/conn"
 	"go-bank-express/internal/delivery/handler"
 	"go-bank-express/internal/delivery/http"
-	"go-bank-express/internal/repository"
-	"go-bank-express/internal/usecase/v1"
 )
 
 // Injectors from wire.go:
 
 func Initialize() (Application, error) {
 	pingHandler := handler.NewPing()
-	db, err := conn.NewDatabase()
-	if err != nil {
-		return Application{}, err
-	}
-	userRepository := repository.NewUserRepository(db)
-	userUsecase := v1.NewUserUsecase(userRepository)
-	userHandler := handler.NewUser(userUsecase)
+	userHandler := handler.NewUser()
 	walletHandler := handler.NewWallet()
 	transactionHandler := handler.NewTransaction()
 	httpServer := http.NewHttpServer(pingHandler, userHandler, walletHandler, transactionHandler)

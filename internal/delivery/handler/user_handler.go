@@ -2,29 +2,36 @@ package handler
 
 import (
 	"fmt"
-	"go-bank-express/internal/usecase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
-	UserUsecase usecase.UserUsecase
+	BaseHandler
 }
 
-func NewUser(user usecase.UserUsecase) *UserHandler {
-	return &UserHandler{
-		UserUsecase: user,
-	}
+func NewUser() *UserHandler {
+	return &UserHandler{}
 }
 
 func (h *UserHandler) RegisterUser(ctx *gin.Context) {
+	// requestId := ctx.Keys["X-Request-Id"].(string)
 	req := RegisterUserReq{}
+
 	if err := ctx.BindJSON(&req); err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 	// pass req and req_id to usecase
+	err := h.PubMessage(ctx, &req)
+	if err != nil {
+		fmt.Println(err)
+		ctx.JSON(http.StatusNotFound, "error return")
+		return
+	}
+	// data := h.Producer.Listen(requestId)
+	// fmt.Println(data)
 	// if err := h.UserUsecase.Create(); err != nil {
 	// 	ctx.JSON(http.StatusNotFound, err.Error())
 	// }
